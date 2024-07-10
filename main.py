@@ -7,11 +7,11 @@ headers = {'Content-Type': 'application/json'}
 def pesquisar(index,palavra='null'):
     if palavra == 'null':
         url=f'https://localhost:9200/{index}/_search/'
-        raws = []
+        rows = []
         response = requests.get(url,auth=('elastic','X1BhM06tu*vKc2IQii*m'),verify='http_ca.crt')
         response_df = pd.DataFrame(response.json()['hits']['hits'])
         for i in response_df['_source']:
-            raws.append(i)
+            rows.append(i)
         response_df2 = pd.DataFrame(raws,index=response_df['_id'])
         response_df2.index = response_df2.index.astype(int)
         response_df2.index.name = 'ID'
@@ -20,10 +20,10 @@ def pesquisar(index,palavra='null'):
         url=f'https://localhost:9200/{index}/_search?q={palavra}'
         response = requests.get(url,auth=('elastic','X1BhM06tu*vKc2IQii*m'),verify='http_ca.crt')
         response_json = response.json()
-        raws=[]
+        rows=[]
         response_df = pd.DataFrame(response.json()['hits']['hits'])
         for i in response_df['_source']:
-            raws.append(i)
+            rows.append(i)
         response_df2 = pd.DataFrame(raws,index=response_df['_id'])
         response_df2.index = response_df2.index.astype(int)
         response_df2.index.name = 'ID'
